@@ -1,0 +1,6 @@
+bin/
+obj/
+.aspnet/keys/
+*.user
+*.suo
+debug.log

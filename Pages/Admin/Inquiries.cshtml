@@ -1,0 +1,16 @@
+@page
+@model CcnPortal.Pages.Admin.InquiriesModel
+@{
+    ViewData["Title"] = "Manage enquiries";
+}
+<section class="admin-page">
+    <div class="section-label"><span>CCN</span> / ADMIN</div><h1>Manage <em>enquiries.</em></h1>
+    @if (!string.IsNullOrWhiteSpace(Model.Notice)) { <div class="form-success admin-notice">@Model.Notice</div> }
+    <form method="get" class="admin-filters"><input name="q" value="@Model.Search" placeholder="Search name, company or email" /><select name="status"><option value="">All statuses</option><option value="new" selected="@(Model.StatusFilter == "new")">New</option><option value="in_progress" selected="@(Model.StatusFilter == "in_progress")">In progress</option><option value="answered" selected="@(Model.StatusFilter == "answered")">Answered</option><option value="closed" selected="@(Model.StatusFilter == "closed")">Closed</option></select><button class="button button-dark" type="submit">Filter</button><a class="button button-light" asp-page-handler="Export">Export CSV <span>↓</span></a></form>
+    @if (Model.Enquiries.Count == 0) { <p class="empty-state">No enquiries match this filter.</p> }
+    else { <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Received</th><th>Contact</th><th>Organisation</th><th>Solution</th><th>Enquiry</th><th>Update status</th></tr></thead><tbody>
+    @foreach (var enquiry in Model.Enquiries) { <tr><td>@enquiry.CreatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</td><td><strong><a asp-page="/Admin/Inquiry" asp-route-id="@enquiry.Id">@enquiry.Name</a></strong><small><a href="mailto:@enquiry.Email">@enquiry.Email</a></small><small>@enquiry.Phone</small></td><td><strong>@enquiry.Company</strong><small>@enquiry.OrganizationType · @enquiry.Country</small></td><td>@enquiry.ProductInterest</td><td class="enquiry-message"><strong>@enquiry.Subject</strong><small>@enquiry.Message</small></td><td><form method="post" asp-page-handler="Update" class="status-form"><input type="hidden" name="id" value="@enquiry.Id" /><select name="status"><option value="new" selected="@(enquiry.Status == "new")">New</option><option value="in_progress" selected="@(enquiry.Status == "in_progress")">In progress</option><option value="answered" selected="@(enquiry.Status == "answered")">Answered</option><option value="closed" selected="@(enquiry.Status == "closed")">Closed</option></select><button type="submit" aria-label="Save status">Save</button></form></td></tr> }
+    </tbody></table></div><p class="admin-footnote">Showing @Model.Enquiries.Count of @Model.TotalCount enquiries · Page @Model.PageNumber of @Model.PageCount</p>
+    @if (Model.PageCount > 1) { <nav class="admin-pagination" aria-label="Enquiry pages">@if (Model.PageNumber > 1) { <a class="button button-light" asp-route-q="@Model.Search" asp-route-status="@Model.StatusFilter" asp-route-page="@(Model.PageNumber - 1)">← Previous</a> } @if (Model.PageNumber < Model.PageCount) { <a class="button button-light" asp-route-q="@Model.Search" asp-route-status="@Model.StatusFilter" asp-route-page="@(Model.PageNumber + 1)">Next →</a> }</nav> } }
+    <a class="under-link" asp-page="/Admin/Index">← Back to dashboard</a>
+</section>

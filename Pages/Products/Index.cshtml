@@ -1,0 +1,23 @@
+@page "/products"
+@model CcnPortal.Pages.Products.IndexModel
+@{
+    ViewData["Title"] = "Cargo solutions";
+}
+<section class="catalog-hero"><div class="section-label"><span>CCN</span> / AIR CARGO SOLUTIONS</div><h1>Find your next<br /><em>cargo connection.</em></h1><p>Explore digital products and services for air cargo operations, data exchange, compliance and visibility.</p></section>
+<section class="catalog section">
+    <form method="get" class="catalog-filters">
+        <label>Search solutions<input name="q" value="@Model.Q" placeholder="Search by name or capability" /></label>
+        <label>Solution area<select name="category"><option value="">All areas</option>@foreach (var category in Model.Categories) { <option value="@category" selected="@(Model.Category == category)">@category</option> }</select></label>
+        <label>I'm a<select name="audience"><option value="">Any cargo partner</option><option selected="@(Model.Audience == "airline")">airline</option><option selected="@(Model.Audience == "forwarder")">forwarder</option><option selected="@(Model.Audience == "shipper")">shipper</option><option selected="@(Model.Audience == "trucker")">trucker</option><option selected="@(Model.Audience == "integrator")">integrator</option></select></label>
+        <button class="button button-dark" type="submit">Search <span>⌕</span></button>
+    </form>
+    <p class="catalog-count">@Model.Products.Count solution@(Model.Products.Count == 1 ? "" : "s")</p>
+    <div class="service-grid product-grid catalog-grid">
+        @foreach (var product in Model.Products)
+        {
+            <article class="service-card product-card"><span class="service-index">@product.Category.ToUpperInvariant()</span><div class="service-icon">↗</div><h3>@product.Name</h3><p>@product.Summary</p><div class="product-audience">For @product.Audience</div><a href="@(product.Url ?? "/#contact")" aria-label="Learn more about @product.Name" target="@(product.Url?.StartsWith("http", StringComparison.OrdinalIgnoreCase) == true ? "_blank" : null)" rel="noopener">↗</a></article>
+        }
+    </div>
+    @if (Model.Products.Count == 0) { <p class="empty-state">No solutions match these filters. Try another search or <a href="/products">view all solutions</a>.</p> }
+    <div class="catalog-contact"><h2>Need help choosing a solution?</h2><p>Tell us about your cargo workflow and our team will point you in the right direction.</p><a class="button button-dark" href="/#contact">Talk to CCN <span>↗</span></a></div>
+</section>

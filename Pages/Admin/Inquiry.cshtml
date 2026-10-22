@@ -1,0 +1,17 @@
+@page
+@model CcnPortal.Pages.Admin.InquiryModel
+@{
+    ViewData["Title"] = "Enquiry details";
+    var item = Model.Enquiry!;
+}
+<section class="admin-page">
+    <div class="section-label"><span>CCN</span> / ADMIN / ENQUIRY #@item.Id</div>
+    <h1>Enquiry <em>details.</em></h1>
+    @if (!string.IsNullOrWhiteSpace(Model.Notice)) { <div class="form-success admin-notice">@Model.Notice</div> }
+    <div class="admin-detail-grid">
+        <article class="admin-detail-card"><h2>Business contact</h2><dl><dt>Name</dt><dd>@item.Name</dd><dt>Company</dt><dd>@item.Company</dd><dt>Organisation</dt><dd>@item.OrganizationType</dd><dt>Country / region</dt><dd>@item.Country</dd><dt>Email</dt><dd><a href="mailto:@item.Email">@item.Email</a></dd><dt>Phone</dt><dd>@(item.Phone ?? "Not provided")</dd><dt>Solution interest</dt><dd>@item.ProductInterest</dd><dt>Received</dt><dd>@item.CreatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</dd></dl></article>
+        <article class="admin-detail-card"><h2>@item.Subject</h2><p class="admin-message-full">@item.Message</p></article>
+    </div>
+    <form method="post" asp-page-handler="Save" class="admin-detail-card admin-followup"><input type="hidden" asp-for="Id" /><h2>Follow-up</h2><div class="admin-detail-fields"><label>Status<select asp-for="Status"><option value="new">New</option><option value="in_progress">In progress</option><option value="answered">Answered</option><option value="closed">Closed</option></select></label><label>Assigned to<input asp-for="AssignedTo" placeholder="Staff name or team" /></label></div><label>Internal notes<textarea asp-for="InternalNotes" rows="5" placeholder="Record internal follow-up actions. These notes are not sent to the customer."></textarea></label><p class="admin-footnote">@(item.UpdatedAt is null ? "No follow-up changes yet." : $"Last updated {item.UpdatedAt.Value.ToLocalTime():dd MMM yyyy HH:mm}")</p><button class="button button-dark" type="submit">Save follow-up</button></form>
+    <a class="under-link" asp-page="/Admin/Inquiries">← Back to enquiries</a>
+</section>

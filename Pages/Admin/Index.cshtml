@@ -1,0 +1,14 @@
+@page
+@model CcnPortal.Pages.Admin.IndexModel
+@{
+    ViewData["Title"] = "Enquiry dashboard";
+}
+<section class="admin-page">
+    <div class="admin-heading"><div><div class="section-label"><span>CCN</span> / ADMIN</div><h1>Enquiry <em>dashboard.</em></h1><p>Signed in as @User.Identity?.Name</p></div><form method="post" asp-page-handler="Logout"><button class="button button-outline admin-logout" type="submit">Sign out</button></form></div>
+    <div class="admin-metrics"><article><span>ALL ENQUIRIES</span><strong>@Model.TotalEnquiries</strong></article><article><span>NEW</span><strong>@Model.NewEnquiries</strong></article><article><span>IN PROGRESS</span><strong>@Model.InProgressEnquiries</strong></article><article><span>ANSWERED</span><strong>@Model.AnsweredEnquiries</strong></article><article><span>CLOSED</span><strong>@Model.ClosedEnquiries</strong></article></div>
+    <div class="admin-table-head"><h2>Recent enquiries</h2><a class="button button-dark" asp-page="/Admin/Inquiries">Manage enquiries <span>↗</span></a></div>
+    @if (Model.Recent.Count == 0) { <p class="empty-state">No enquiries have been submitted yet.</p> }
+    else { <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Received</th><th>Contact</th><th>Company</th><th>Solution</th><th>Status</th></tr></thead><tbody>
+    @foreach (var enquiry in Model.Recent) { <tr><td>@enquiry.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")</td><td><strong><a asp-page="/Admin/Inquiry" asp-route-id="@enquiry.Id">@enquiry.Name</a></strong><small>@enquiry.Email</small></td><td>@enquiry.Company</td><td>@enquiry.ProductInterest</td><td><span class="status-pill status-@enquiry.Status">@enquiry.Status.Replace('_', ' ')</span></td></tr> }
+    </tbody></table></div> }
+</section>

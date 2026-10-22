@@ -1,0 +1,16 @@
+@page
+@model CcnPortal.Pages.Admin.LoginModel
+@{
+    ViewData["Title"] = "Staff sign in";
+}
+<section class="admin-auth">
+    <div class="section-label"><span>CCN</span> / STAFF AREA</div>
+    <h1>Staff <em>sign in.</em></h1>
+    <p>Sign in to review and manage website enquiries.</p>
+    @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage)) { <div class="admin-alert">@Model.ErrorMessage</div> }
+    <form method="post" class="contact-form admin-login-form">
+        <label>Email<input name="Input.Email" type="email" autocomplete="username" required /></label>
+        <label>Password<input name="Input.Password" type="password" autocomplete="current-password" required /></label>
+        <button class="button button-dark" type="submit">Sign in <span>↗</span></button>
+    </form>
+</section>

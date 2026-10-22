@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#102b35" />
+    <title>@ViewData["Title"] — CCN</title>
+    <meta name="description" content="Cargo Community Network connects the air cargo industry with digital solutions for cargo operations, data exchange and compliance." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" asp-page="/Index" aria-label="CCN beranda"><span class="brand-mark">C</span><span>CCN<span class="brand-dot">.</span></span></a>
+        <nav class="nav-links" aria-label="Main navigation">
+            <a href="/#about">About CCN</a><a href="/products">Solutions</a><a href="/#ecosystem">Ecosystem</a><a href="/#contact">Contact</a>
+        </nav>
+        <a class="nav-cta" href="/#contact">Talk to our team <span>↗</span></a>
+        <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+    </header>
+    <main>@RenderBody()</main>
+    <footer class="footer">
+        <a class="brand footer-brand" asp-page="/Index"><span class="brand-mark">C</span><span>CCN<span class="brand-dot">.</span></span></a>
+        <p>Connecting the global air cargo community.</p><a class="admin-link" href="/Admin/Login">Staff sign in</a><span class="copyright">© @DateTime.Now.Year Cargo Community Network.</span>
+    </footer>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
